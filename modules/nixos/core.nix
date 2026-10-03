@@ -21,8 +21,10 @@
   # Enable flakes and experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Minimal system-wide packages (essential utilities & drivers)
+  # System-wide packages (including git so root/nixos-rebuild can evaluate git flakes)
   environment.systemPackages = with pkgs; [
+    git
+    git-lfs
     wget
     curl
     gawk

@@ -9,7 +9,7 @@
   wsl = {
     enable = true;
     defaultUser = "vstasenko";
-    startSystemd = true;
+    nativeSystemd = true;
     wslConf = {
       interop.appendWindowsPath = false;
       user.default = "vstasenko";

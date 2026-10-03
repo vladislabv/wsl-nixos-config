@@ -17,7 +17,7 @@
     ripgrep
     jq
     unzip
-    tar
+    gnutar
     
     # Dev workflow & Cloud
     devenv
@@ -26,7 +26,6 @@
     lazydocker
     gh
     opentofu
-    tofu
     terragrunt
     uv
     python3
@@ -49,21 +48,36 @@
     enableZshIntegration = true;
   };
 
-  # Git configuration for vstasenko
+  # Git configuration for vstasenko (using modern settings syntax)
   programs.git = {
     enable = true;
-    userName = "vladislabv";
-    userEmail = "stasenko_vladislav@protonmail.com";
-    extraConfig = {
-      init.defaultBranch = "main";
-      filter.lfs = {
-        clean = "git-lfs clean -- %f";
-        smudge = "git-lfs smudge -- %f";
-        process = "git-lfs filter-process";
-        required = true;
+    settings = {
+      user = {
+        name = "vladislabv";
+        email = "stasenko_vladislav@protonmail.com";
+      };
+      init = {
+        defaultBranch = "main";
+      };
+      filter = {
+        "lfs" = {
+          clean = "git-lfs clean -- %f";
+          smudge = "git-lfs smudge -- %f";
+          process = "git-lfs filter-process";
+          required = true;
+        };
       };
     };
   };
 
-  systemd.user.startServices = "sd-switch";
+  # Declaratively link dotfiles via XDG config
+  xdg.configFile."zsh".source = ./../../dotfiles/zsh;
+  xdg.configFile."starship.toml".source = ./../../dotfiles/starship.toml;
+  xdg.configFile."nvim".source = ./../../dotfiles/nvim;
+
+  # Ensure ~/.zshenv points Zsh to XDG config dir
+  home.file.".zshenv".text = ''
+    export ZDOTDIR=$HOME/.config/zsh
+    [[ -f $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
+  '';
 }

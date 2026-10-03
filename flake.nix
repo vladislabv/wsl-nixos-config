@@ -1,5 +1,5 @@
 {
-  description = "vstasenko Dendritic NixOS Flake Configuration",
+  description = "vstasenko Dendritic NixOS Flake Configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
